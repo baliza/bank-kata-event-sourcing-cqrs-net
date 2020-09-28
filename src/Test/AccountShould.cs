@@ -75,5 +75,14 @@
 			Account account = Account.Empty();
 			Assert.ContainsOnly(account.UncommittedChanges, new NewAccountCreated(account.AccountId, Balance.ZERO), "add_creation_event_when_creating_account");
 		}
+
+		internal static void add_deposit_event_to_uncommitted_change_when_deposit_made()
+		{
+			Account account = Account.Empty();
+
+			account.Deposit(Amount.Of(10.0));
+
+			Assert.Contains(account.UncommittedChanges, new NewDepositMade(account.AccountId, Amount.Of(10.0)), "add_deposit_event_to_uncommitted_change_when_deposit_made");
+		}
 	}
 }

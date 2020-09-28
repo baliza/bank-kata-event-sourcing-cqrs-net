@@ -19,6 +19,7 @@
 			AccountShould.fail_when_deposit_a_negative_amount();
 			AccountShould.fail_when_deposit_a_zero_amount();
 			AccountShould.add_creation_event_when_creating_account();
+			AccountShould.add_deposit_event_to_uncommitted_change_when_deposit_made();
 
 			Terminal.WriteWhite("");
 			Terminal.WriteWhite("AmountShould");
