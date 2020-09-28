@@ -6,6 +6,10 @@ namespace Domain
 
 	public class Account
 	{
+		private Account()
+		{
+		}
+
 		private Account(AccountId accountId, Balance balance)
 		{
 			NewAccountCreated newAccountCreated = new NewAccountCreated(accountId, balance);
@@ -14,9 +18,9 @@ namespace Domain
 			UncommittedChanges = new List<IAccountEvent>() { newAccountCreated };
 		}
 
-		public AccountId AccountId { get; }
+		public AccountId AccountId { get; private set; }
 		public Balance Balance { get; private set; }
-		public List<IAccountEvent> UncommittedChanges { get; }
+		public List<IAccountEvent> UncommittedChanges { get; private set; }
 
 		public static Account Empty()
 		{
@@ -38,7 +42,12 @@ namespace Domain
 
 		public static Account Rebuild(List<IAccountEvent> events)
 		{
-			return Empty();
+			var account = new Account { UncommittedChanges = new List<IAccountEvent>() };
+			foreach (var e in events)
+			{
+				e.Apply(account);
+			}
+			return account;
 		}
 
 		private void SaveUncommittedChange(IAccountEvent newDepositMade)
@@ -46,9 +55,15 @@ namespace Domain
 			UncommittedChanges.Add(newDepositMade);
 		}
 
-		private void Apply(NewDepositMade newDepositMade)
+		public void Apply(NewDepositMade newDepositMade)
 		{
 			Balance = Balance.Add(newDepositMade.Amount);
+		}
+
+		public void Apply(NewAccountCreated newAccountCreated)
+		{
+			AccountId = newAccountCreated.AccountId;
+			Balance = newAccountCreated.Balance;
 		}
 
 		public override bool Equals(object obj)

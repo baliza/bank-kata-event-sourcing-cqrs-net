@@ -1,4 +1,6 @@
 namespace Domain.Event
 {
-	public interface IAccountEvent { }
+	public interface IAccountEvent {
+		void Apply(Account account);
+	}
 }

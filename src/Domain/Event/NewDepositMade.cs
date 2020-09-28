@@ -14,6 +14,11 @@
 
 		public Amount Amount { get; }
 
+		public void Apply(Account account)
+		{
+			account.Apply(this);
+		}
+
 		public override bool Equals(object obj)
 		{
 			if (this == obj) return true;
