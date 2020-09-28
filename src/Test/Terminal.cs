@@ -15,5 +15,11 @@
 			global::System.Console.ForegroundColor = ConsoleColor.Red;
 			global::System.Console.WriteLine(message + " WRONG");
 		}
+
+		internal static void WriteWhite(string message)
+		{
+			global::System.Console.ForegroundColor = ConsoleColor.White;
+			global::System.Console.WriteLine(message);
+		}
 	}
 }

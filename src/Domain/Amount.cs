@@ -4,15 +4,15 @@ namespace Domain
 
 	public sealed class Amount
 	{
-		private readonly double _value;
 
 		private Amount(double value)
 		{
-			_value = value;
+			Value = value;
 		}
 
-		public double Value { get { return _value; } }
-		public bool IsPositive { get { return Value > 0; } }
+		public double Value { get; }
+
+		public bool IsPositive => Value > 0;
 
 		public static Amount Of(double value)
 		{
@@ -36,7 +36,7 @@ namespace Domain
 
 		public override int GetHashCode()
 		{
-			return HashCode.Combine("Amount", _value);
+			return HashCode.Combine("Amount", Value);
 		}
 
 		public override string ToString()

@@ -73,7 +73,7 @@
 		internal static void add_creation_event_when_creating_account()
 		{
 			Account account = Account.Empty();
-			Assert.ContainsOnly(account.GetUncommittedChanges(), new NewAccountCreated(account.AccountId, Balance.ZERO), "add_creation_event_when_creating_account");
+			Assert.ContainsOnly(account.UncommittedChanges, new NewAccountCreated(account.AccountId, Balance.ZERO), "add_creation_event_when_creating_account");
 		}
 	}
 }

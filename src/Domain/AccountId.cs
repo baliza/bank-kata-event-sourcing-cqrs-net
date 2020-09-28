@@ -4,26 +4,21 @@
 
 	public sealed class AccountId
 	{
-		public readonly Guid _id;
-
 		private AccountId(Guid id)
 		{
-			_id = id;
+			Value = id;
 		}
 
-		public Guid Value
-		{
-			get { return _id; }
-		}
+		public Guid Value { get; }
 
-		public static AccountId Create(System.Guid id)
+		public static AccountId Create(Guid id)
 		{
 			return new AccountId(id);
 		}
 
 		public static AccountId Create()
 		{
-			return new AccountId(System.Guid.NewGuid());
+			return new AccountId(Guid.NewGuid());
 		}
 
 		public override bool Equals(object obj)
@@ -33,18 +28,18 @@
 
 			AccountId other = (AccountId)obj;
 
-			return _id == other._id;
+			return Value == other.Value;
 		}
 
 		public override int GetHashCode()
 		{
-			return HashCode.Combine("AccountId", _id);
+			return HashCode.Combine("AccountId", Value);
 		}
 
 		public override string ToString()
 		{
 			return "AccountId{" +
-					"value=" + _id +
+					"value=" + Value +
 					'}';
 		}
 	}

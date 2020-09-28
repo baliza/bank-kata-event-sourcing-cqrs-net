@@ -4,26 +4,19 @@ namespace Domain
 	using System;
 	using System.Collections.Generic;
 
-	public sealed class Account
+	public class Account
 	{
-		private readonly AccountId _accountId;
-		private Balance _balance;
-
 		private Account(AccountId accountId, Balance balance)
 		{
-			_accountId = accountId;
-			_balance = balance;
+			NewAccountCreated newAccountCreated = new NewAccountCreated(accountId, balance);
+			AccountId = newAccountCreated.AccountId;
+			Balance = newAccountCreated.Balance;
+			UncommittedChanges = new List<IAccountEvent>() { newAccountCreated };
 		}
 
-		public Balance Balance
-		{
-			get { return _balance; }
-		}
-
-		public AccountId AccountId
-		{
-			get { return _accountId; }
-		}
+		public AccountId AccountId { get; }
+		public Balance Balance { get; private set; }
+		public List<IAccountEvent> UncommittedChanges { get; }
 
 		public static Account Empty()
 		{
@@ -38,12 +31,7 @@ namespace Domain
 		public void Deposit(Amount amount)
 		{
 			Preconditions.CheckArgumentIsTrue(amount.IsPositive, "A deposit must be positive");
-			_balance = _balance.Add(amount);
-		}
-
-		public List<IAccountEvent> GetUncommittedChanges()
-		{
-			return new List<IAccountEvent>();
+			Balance = Balance.Add(amount);
 		}
 
 		public override bool Equals(object obj)
@@ -53,18 +41,18 @@ namespace Domain
 
 			Account other = (Account)obj;
 
-			return _accountId == other._accountId && _balance.Equals(other._balance);
+			return AccountId == other.AccountId && Balance.Equals(other.Balance);
 		}
 
 		public override int GetHashCode()
 		{
-			return HashCode.Combine("Account", _accountId);
+			return HashCode.Combine("Account", AccountId);
 		}
 
 		public override string ToString()
 		{
 			return "Account{" +
-				"balance=" + _balance +
+				"balance=" + Balance +
 				'}';
 		}
 	}
