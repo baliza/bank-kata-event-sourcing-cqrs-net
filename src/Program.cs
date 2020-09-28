@@ -15,6 +15,8 @@
 			AccountShould.add_amount_to_non_zero_balance_when_deposit_is_made();
 			AccountShould.fail_when_deposit_a_negative_amount();
 			AccountShould.fail_when_deposit_a_zero_amount();
+			AccountShould.add_creation_event_when_creating_account();
+
 			AmountShould.add_two_amount();
 
 			Console.ReadLine();

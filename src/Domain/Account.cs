@@ -1,6 +1,8 @@
 namespace Domain
 {
+	using Domain.Event;
 	using System;
+	using System.Collections.Generic;
 
 	public sealed class Account
 	{
@@ -18,6 +20,11 @@ namespace Domain
 			get { return _balance; }
 		}
 
+		public AccountId AccountId
+		{
+			get { return _accountId; }
+		}
+
 		public static Account Empty()
 		{
 			return new Account(AccountId.Create(), Balance.ZERO);
@@ -32,6 +39,11 @@ namespace Domain
 		{
 			Preconditions.CheckArgumentIsTrue(amount.IsPositive, "A deposit must be positive");
 			_balance = _balance.Add(amount);
+		}
+
+		public List<IAccountEvent> GetUncommittedChanges()
+		{
+			return new List<IAccountEvent>();
 		}
 
 		public override bool Equals(object obj)

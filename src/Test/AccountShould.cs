@@ -2,6 +2,7 @@
 {
 	using Console.Test;
 	using Domain;
+	using Domain.Event;
 	using System;
 
 	internal static class AccountShould
@@ -67,6 +68,12 @@
 				else
 					Terminal.WriteRed("fail_when_deposit_a_negative_amount");
 			}
+		}
+
+		internal static void add_creation_event_when_creating_account()
+		{
+			Account account = Account.Empty();
+			Assert.ContainsOnly(account.GetUncommittedChanges(), new NewAccountCreated(account.AccountId, Balance.ZERO), "add_creation_event_when_creating_account");
 		}
 	}
 }
