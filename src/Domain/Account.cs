@@ -36,6 +36,11 @@ namespace Domain
 			SaveUncommittedChange(newDepositMade);
 		}
 
+		public static Account Rebuild(List<IAccountEvent> events)
+		{
+			return Empty();
+		}
+
 		private void SaveUncommittedChange(IAccountEvent newDepositMade)
 		{
 			UncommittedChanges.Add(newDepositMade);

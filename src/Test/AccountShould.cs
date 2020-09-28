@@ -4,6 +4,7 @@
 	using Domain;
 	using Domain.Event;
 	using System;
+	using System.Collections.Generic;
 
 	internal static class AccountShould
 	{
@@ -83,6 +84,17 @@
 			account.Deposit(Amount.Of(10.0));
 
 			Assert.Contains(account.UncommittedChanges, new NewDepositMade(account.AccountId, Amount.Of(10.0)), "add_deposit_event_to_uncommitted_change_when_deposit_made");
+		}
+
+		internal static void be_initialized_with_past_events()
+		{
+			AccountId accountId = AccountId.Create();
+			var events = new List<IAccountEvent>() { new NewAccountCreated(accountId, Balance.Of(10.0)), new NewDepositMade(accountId, Amount.Of(10.0)) };
+
+			Account account = Account.Rebuild(events);
+
+			Assert.ThatAreEqual(account.Balance, Balance.Of(20.0), "be_initialized_with_past_events-1");
+			Assert.ThatAreEqual(account.AccountId, accountId, "be_initialized_with_past_events-2");
 		}
 	}
 }
