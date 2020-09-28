@@ -17,7 +17,7 @@ namespace Console.Test
 
 		internal static void Contains<T>(List<T> list, T expected, string message)
 		{
-			var any = list.Any(x => list.Equals(x));
+			var any = list.Any(x => x.Equals(expected));
 			PrintResult(any, message);
 		}
 

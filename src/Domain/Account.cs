@@ -31,7 +31,19 @@ namespace Domain
 		public void Deposit(Amount amount)
 		{
 			Preconditions.CheckArgumentIsTrue(amount.IsPositive, "A deposit must be positive");
-			Balance = Balance.Add(amount);
+			var newDepositMade = new NewDepositMade(AccountId, amount);
+			Apply(newDepositMade);
+			SaveUncommittedChange(newDepositMade);
+		}
+
+		private void SaveUncommittedChange(IAccountEvent newDepositMade)
+		{
+			UncommittedChanges.Add(newDepositMade);
+		}
+
+		private void Apply(NewDepositMade newDepositMade)
+		{
+			Balance = Balance.Add(newDepositMade.Amount);
 		}
 
 		public override bool Equals(object obj)

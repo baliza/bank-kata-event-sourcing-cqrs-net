@@ -4,22 +4,16 @@
 
 	public class NewDepositMade : IAccountEvent
 	{
-
 		public NewDepositMade(AccountId accountId, Amount amount)
 		{
 			AccountId = accountId;
 			Amount = amount;
 		}
 
-		public AccountId AccountId
-		{
-			get;
-		}
+		public AccountId AccountId { get; }
 
-		public Amount Amount
-		{
-			get;
-		}
+		public Amount Amount { get; }
+
 		public override bool Equals(object obj)
 		{
 			if (this == obj) return true;
